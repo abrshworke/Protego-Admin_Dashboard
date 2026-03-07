@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import Sidebar from "../components/SideBar";
 import Topbar from "../components/Topbar";
@@ -6,6 +6,8 @@ import L from "leaflet";
 import Footer from "../components/Footer";
 import { db } from "../firebase";
 import { collection, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import { AuthContext } from "../AuthProvider";
+import subcityData from "../assets/subcities.json";
 
 const getIcon = (status) => {
   const colors = { unresolved: "red", in_process: "orange", resolved: "green" };
@@ -73,14 +75,25 @@ function FlyToLocation({ coords }) {
   return null;
 }
 
+// Locks the map to a bounding box and sets initial view
+function MapBoundController({ center, bounds }) {
+  const map = useMap();
+  useEffect(() => {
+    if (bounds) {
+      map.fitBounds(bounds, { padding: [20, 20] });
+      map.setMinZoom(13);
+      map.setMaxBounds(bounds.pad(0.3));
+    }
+  }, [bounds, map]);
+  return null;
+}
+
 function RoutingLayer({ userCoords, incidentCoords, onRouteInfo }) {
   const map = useMap();
   const routeLayerRef = useRef(null);
 
   useEffect(() => {
     if (!userCoords || !incidentCoords) return;
-
-    // Clear previous route
     if (routeLayerRef.current) {
       map.removeLayer(routeLayerRef.current);
       routeLayerRef.current = null;
@@ -91,31 +104,24 @@ function RoutingLayer({ userCoords, incidentCoords, onRouteInfo }) {
         const url = `https://router.project-osrm.org/route/v1/driving/${userCoords[1]},${userCoords[0]};${incidentCoords[1]},${incidentCoords[0]}?overview=full&geometries=geojson`;
         const res = await fetch(url);
         const data = await res.json();
-
-        if (data.routes && data.routes.length > 0) {
+        if (data.routes?.length > 0) {
           const route = data.routes[0];
           const coords = route.geometry.coordinates.map(([lng, lat]) => [
             lat,
             lng,
           ]);
-
-          // Draw route line
           const polyline = L.polyline(coords, {
             color: "#3b82f6",
             weight: 5,
             opacity: 0.8,
             dashArray: "10, 5",
           }).addTo(map);
-
           routeLayerRef.current = polyline;
-
-          // Fit map to show full route
           map.fitBounds(polyline.getBounds(), { padding: [40, 40] });
-
-          // Pass distance & duration up
-          const distKm = (route.distance / 1000).toFixed(1);
-          const durMin = Math.round(route.duration / 60);
-          onRouteInfo({ distKm, durMin });
+          onRouteInfo({
+            distKm: (route.distance / 1000).toFixed(1),
+            durMin: Math.round(route.duration / 60),
+          });
         }
       } catch (err) {
         console.error("Routing failed:", err);
@@ -123,26 +129,69 @@ function RoutingLayer({ userCoords, incidentCoords, onRouteInfo }) {
     };
 
     fetchRoute();
-
     return () => {
-      if (routeLayerRef.current) {
-        map.removeLayer(routeLayerRef.current);
-      }
+      if (routeLayerRef.current) map.removeLayer(routeLayerRef.current);
     };
   }, [userCoords, incidentCoords, map, onRouteInfo]);
 
   return null;
 }
 
+// Check if a coordinate is within a bounding box (with padding)
+function isWithinBounds(lat, lng, bounds) {
+  if (!bounds) return true;
+  const sw = bounds.getSouthWest();
+  const ne = bounds.getNorthEast();
+  return lat >= sw.lat && lat <= ne.lat && lng >= sw.lng && lng <= ne.lng;
+}
+
 export default function LiveMap() {
+  const { role, region, woreda } = useContext(AuthContext);
   const [incidents, setIncidents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [flyTo, setFlyTo] = useState(null);
   const [updatingId, setUpdatingId] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
-  const [activeRoute, setActiveRoute] = useState(null); // { userCoords, incidentCoords }
-  const [routeInfo, setRouteInfo] = useState(null); // { distKm, durMin }
+  const [activeRoute, setActiveRoute] = useState(null);
+  const [routeInfo, setRouteInfo] = useState(null);
   const [locatingId, setLocatingId] = useState(null);
+
+  // Resolve center and bounds from region/woreda
+  const mapConfig = (() => {
+    // Admin sees all of Addis Ababa
+    if (role === "admin") {
+      const bounds = L.latLngBounds([8.85, 38.64], [9.12, 38.9]);
+      return { center: [9.0154, 38.7686], bounds, zoom: 12 };
+    }
+
+    const subcity = subcityData.find(
+      (s) => s.subcity.toLowerCase() === region?.toLowerCase(),
+    );
+
+    if (!subcity) {
+      return { center: [9.0154, 38.7686], bounds: null, zoom: 13 };
+    }
+
+    // If woreda is specified, zoom to that woreda
+    if (woreda) {
+      const woredaData = subcity.woredas.find((w) => w.woreda === woreda);
+      if (woredaData) {
+        const lat = woredaData.lat;
+        const lng = woredaData.lon;
+        const delta = 0.008;
+        const bounds = L.latLngBounds(
+          [lat - delta, lng - delta],
+          [lat + delta, lng + delta],
+        );
+        return { center: [lat, lng], bounds, zoom: 15 };
+      }
+    }
+
+    // Subcity level bounds
+    const woredaCoords = subcity.woredas.map((w) => [w.lat, w.lon]);
+    const bounds = L.latLngBounds(woredaCoords).pad(0.02);
+    return { center: [subcity.lat, subcity.lon], bounds, zoom: 14 };
+  })();
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "incidents"), (snapshot) => {
@@ -152,6 +201,18 @@ export default function LiveMap() {
     });
     return () => unsubscribe();
   }, []);
+
+  // Filter incidents to only show those within the authority's bounds
+  const visibleIncidents = incidents.filter((incident) => {
+    if (!incident.latitude || !incident.longitude) return false;
+    if (role === "admin") return true;
+    if (!mapConfig.bounds) return true;
+    return isWithinBounds(
+      incident.latitude,
+      incident.longitude,
+      mapConfig.bounds,
+    );
+  });
 
   const handleViewLocation = (incident) => {
     setFlyTo([incident.latitude, incident.longitude]);
@@ -205,15 +266,20 @@ export default function LiveMap() {
       <div className="flex-1 flex flex-col">
         <Topbar />
         <main className="flex-1 p-4 flex flex-col">
-          <h1 className="text-2xl font-bold text-slate-800 mb-1">Live Map</h1>
-          <p className="text-slate-500 mb-4">
-            Monitor real-time SOS alerts on the map.
-          </p>
+          <div className="mb-4">
+            <h1 className="text-2xl font-bold text-slate-800">Live Incidents In {region}: Woreda {woreda}</h1>
+            <p className="text-slate-500 text-sm mt-0.5">
+              {role === "admin"
+                ? "Viewing all incidents across Addis Ababa"
+                : woreda
+                  ? `Viewing: ${region} — Woreda ${woreda}`
+                  : `Viewing: ${region} subcity`}
+            </p>
+          </div>
 
           <div className="flex gap-4 flex-1">
             {/* Map */}
             <div className="flex-1 rounded-xl shadow-lg overflow-hidden h-[80vh] relative">
-              {/* Route info banner */}
               {routeInfo && (
                 <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[999] bg-white shadow-lg rounded-full px-5 py-2 flex items-center gap-4 border border-blue-200">
                   <span className="text-sm font-semibold text-blue-700">
@@ -238,14 +304,18 @@ export default function LiveMap() {
                 </div>
               ) : (
                 <MapContainer
-                  center={[9.0154, 38.7686]}
-                  zoom={12}
+                  center={mapConfig.center}
+                  zoom={mapConfig.zoom}
                   scrollWheelZoom={true}
                   className="h-full w-full"
                 >
                   <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                  />
+                  <MapBoundController
+                    center={mapConfig.center}
+                    bounds={mapConfig.bounds}
                   />
                   {flyTo && <FlyToLocation coords={flyTo} />}
                   {activeRoute && (
@@ -255,8 +325,6 @@ export default function LiveMap() {
                       onRouteInfo={setRouteInfo}
                     />
                   )}
-
-                  {/* User location marker */}
                   {userLocation && (
                     <Marker position={userLocation} icon={blueIcon}>
                       <Popup>
@@ -266,32 +334,28 @@ export default function LiveMap() {
                       </Popup>
                     </Marker>
                   )}
-
-                  {incidents.map((incident) => {
-                    if (!incident.latitude || !incident.longitude) return null;
-                    return (
-                      <Marker
-                        key={incident.id}
-                        position={[incident.latitude, incident.longitude]}
-                        icon={getIcon(incident.status)}
-                      >
-                        <Popup>
-                          <div className="text-sm space-y-1">
-                            <p className="font-semibold">ID: {incident.id}</p>
-                            <p>Status: {incident.status}</p>
-                            <p>Lat: {incident.latitude?.toFixed(5)}</p>
-                            <p>Lng: {incident.longitude?.toFixed(5)}</p>
-                            {incident.createdAt && (
-                              <p>
-                                Reported:{" "}
-                                {incident.createdAt.toDate().toLocaleString()}
-                              </p>
-                            )}
-                          </div>
-                        </Popup>
-                      </Marker>
-                    );
-                  })}
+                  {visibleIncidents.map((incident) => (
+                    <Marker
+                      key={incident.id}
+                      position={[incident.latitude, incident.longitude]}
+                      icon={getIcon(incident.status)}
+                    >
+                      <Popup>
+                        <div className="text-sm space-y-1">
+                          <p className="font-semibold">ID: {incident.id}</p>
+                          <p>Status: {incident.status}</p>
+                          <p>Lat: {incident.latitude?.toFixed(5)}</p>
+                          <p>Lng: {incident.longitude?.toFixed(5)}</p>
+                          {incident.createdAt && (
+                            <p>
+                              Reported:{" "}
+                              {incident.createdAt.toDate().toLocaleString()}
+                            </p>
+                          )}
+                        </div>
+                      </Popup>
+                    </Marker>
+                  ))}
                 </MapContainer>
               )}
             </div>
@@ -303,7 +367,7 @@ export default function LiveMap() {
                   Incidents
                 </h2>
                 <span className="text-xs bg-slate-100 text-slate-600 font-semibold px-2 py-1 rounded-full">
-                  {incidents.length} total
+                  {visibleIncidents.length} total
                 </span>
               </div>
 
@@ -312,12 +376,14 @@ export default function LiveMap() {
                   <div className="flex items-center justify-center h-full">
                     <p className="text-slate-400 text-sm">Loading...</p>
                   </div>
-                ) : incidents.length === 0 ? (
+                ) : visibleIncidents.length === 0 ? (
                   <div className="flex items-center justify-center h-full">
-                    <p className="text-slate-400 text-sm">No incidents found</p>
+                    <p className="text-slate-400 text-sm text-center">
+                      No incidents in your area
+                    </p>
                   </div>
                 ) : (
-                  incidents.map((incident, index) => {
+                  visibleIncidents.map((incident, index) => {
                     const style =
                       STATUS_STYLES[incident.status] ||
                       STATUS_STYLES["unresolved"];
@@ -330,7 +396,6 @@ export default function LiveMap() {
                         key={incident.id}
                         className={`bg-white rounded-xl shadow-sm border ${style.border} p-4 flex flex-col gap-3`}
                       >
-                        {/* Header */}
                         <div className="flex items-center justify-between">
                           <span className="text-xs font-bold text-slate-500 uppercase tracking-wide">
                             #{index + 1}
@@ -345,7 +410,6 @@ export default function LiveMap() {
                           </span>
                         </div>
 
-                        {/* Coordinates */}
                         <div className="text-xs text-slate-500 space-y-0.5">
                           <p>
                             <span className="font-medium text-slate-700">
@@ -369,7 +433,6 @@ export default function LiveMap() {
                           )}
                         </div>
 
-                        {/* Buttons row 1 */}
                         <div className="flex gap-2">
                           <button
                             onClick={() => handleViewLocation(incident)}
@@ -388,7 +451,6 @@ export default function LiveMap() {
                           </button>
                         </div>
 
-                        {/* Directions button */}
                         <button
                           onClick={() => handleDirections(incident)}
                           disabled={locatingId === incident.id}
