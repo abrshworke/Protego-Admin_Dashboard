@@ -6,14 +6,15 @@ export const assets = {
 };
 
 export const sidebarMenu = [
-  { name: "Overview", path: "/", icon: LayoutDashboard },
+  { name: "Overview", path: "/overview", icon: LayoutDashboard },
   { name: "Live Incidents", path: "/map", icon: Map },
   { name: "Anonymous Reports", path: "/reports", icon: FileWarning },
 ];
+
 export const adminSidebarMenu = [
-  { name: "Overview", path: "/", icon: LayoutDashboard },
-  { name: "Live Incidents", path: "/map", icon: Map },
-  { name: "Anonymous Reports", path: "/reports", icon: FileWarning },
+  { name: "Overview", path: "/admin/overview", icon: LayoutDashboard },
+  { name: "Live Incidents", path: "/admin/map", icon: Map },
+  { name: "Anonymous Reports", path: "/admin/reports", icon: FileWarning },
 ];
 
 export const statsData = [
