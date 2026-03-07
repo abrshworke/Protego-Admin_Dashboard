@@ -1,14 +1,21 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "./AuthProvider";
 
 import ProtectedRoute from "./ProtectedRoute";
 import AuthorityLogin from "./page/AuthorityLogin";
-
 import Overview from "./page/Overview";
-import Incidents from "./page/Incidents";
 import AnonymousReports from "./page/AnonymousReports";
-import UserManagement from "./page/UserManagement";
 import LiveMap from "./page/LiveMap";
-import AdminDashboard  from "./page/AdminDashboard";
+import AdminLiveMap from "./page/AdminLiveMap";
+import AdminDashboard from "./page/AdminDashboard";
+
+function RoleRedirect() {
+  const { role } = useContext(AuthContext);
+  if (role === "admin") return <Navigate to="/admin/overview" replace />;
+  if (role === "authority") return <Navigate to="/overview" replace />;
+  return <Navigate to="/login" replace />;
+}
 
 export default function App() {
   return (
@@ -16,18 +23,25 @@ export default function App() {
       {/* Public */}
       <Route path="/login" element={<AuthorityLogin />} />
 
-      {/* Protected Routes */}
-      <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<Overview />} />
-        <Route path="/incidents" element={<Incidents />} />
-        <Route path="/reports" element={<AnonymousReports />} />
-        <Route path="/users" element={<UserManagement />} />
+      {/* Root redirect based on role */}
+      <Route path="/" element={<RoleRedirect />} />
+
+      {/* Authority routes */}
+      <Route element={<ProtectedRoute allowedRoles={["authority"]} />}>
+        <Route path="/overview" element={<Overview />} />
         <Route path="/map" element={<LiveMap />} />
+        <Route path="/reports" element={<AnonymousReports />} />
       </Route>
 
-      <Route element={<ProtectedRoute adminOnly={true} />}>
-        <Route path="/admin" element={<AdminDashboard />} />
+      {/* Admin routes */}
+      <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+        <Route path="/admin/overview" element={<AdminDashboard />} />
+        <Route path="/admin/map" element={<AdminLiveMap />} />
+        <Route path="/admin/reports" element={<AnonymousReports />} />
       </Route>
+
+      {/* Catch all */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
