@@ -1,82 +1,83 @@
 import logo from "./logo.png";
+import { LayoutDashboard, Map, FileWarning } from "lucide-react";
 
 export const assets = {
   logo,
 };
 
-
-
-
 export const sidebarMenu = [
-{ name: "Overview", path: "/" , icon: "📊" },
-{ name: "Live Map", path: "/map" , icon: "🗺️" },
-{ name: "Incidents", path: "/incidents" , icon: "🚨"  },
-{ name: "Anonymous Reports", path: "/reports"  , icon: "🕵️" },
-{ name: "User Management", path: "/users" , icon: "👥"},
-
+  { name: "Overview", path: "/", icon: LayoutDashboard },
+  { name: "Live Incidents", path: "/map", icon: Map },
+  { name: "Anonymous Reports", path: "/reports", icon: FileWarning },
 ];
-
+export const adminSidebarMenu = [
+  { name: "Overview", path: "/", icon: LayoutDashboard },
+  { name: "Live Incidents", path: "/map", icon: Map },
+  { name: "Anonymous Reports", path: "/reports", icon: FileWarning },
+];
 
 export const statsData = [
-{ title: "Total Alerts", value: "145", change: "↓ 12%", positive: false },
-{ title: "Active SOS", value: "3", change: "↓ 2 New", positive: false },
-{ title: "Resolved Today", value: "12", change: "↑ 8%", positive: true },
-{ title: "Avg Response Time", value: "2m 14s", change: "↑ 15s", positive: true },
+  { title: "Total Alerts", value: "145", change: "↓ 12%", positive: false },
+  { title: "Active SOS", value: "3", change: "↓ 2 New", positive: false },
+  { title: "Resolved Today", value: "12", change: "↑ 8%", positive: true },
+  {
+    title: "Avg Response Time",
+    value: "2m 14s",
+    change: "↑ 15s",
+    positive: true,
+  },
 ];
-
-
 
 export const incidentsData = [
-{
-id: "SOS-2023-001",
-source: "SOS App",
-timestamp: "Feb 9, 21:01",
-location: "9.0154, 38.7686",
-priority: "High",
-status: "Active",
-},
-{
-id: "SOS-2023-002",
-source: "SOS App",
-timestamp: "Feb 9, 20:48",
-location: "8.9854, 38.7536",
-priority: "High",
-status: "Acknowledged",
-},
-{
-id: "MAN-2023-045",
-source: "Manual",
-timestamp: "Feb 9, 20:03",
-location: "9.0104, 38.7436",
-priority: "Medium",
-status: "Resolved",
-},
-{
-id: "IOT-2023-012",
-source: "IoT Sensor",
-timestamp: "Feb 9, 17:03",
-location: "9.0354, 38.7836",
-priority: "Low",
-status: "Active",
-},
-{
-id: "IOT-2023-02",
-source: "IoT Sensor",
-timestamp: "Feb 9, 17:03",
-location: "9.0354, 38.7836",
-priority: "Low",
-status: "Resolved",
-},
-{
-id: "IOT-2022-012",
-source: "IoT Sensor",
-timestamp: "Feb 9, 17:03",
-location: "9.0354, 38.7836",
-priority: "Low",
-status: "Acknowledged",
-},
+  {
+    id: "SOS-2023-001",
+    source: "SOS App",
+    timestamp: "Feb 9, 21:01",
+    location: "9.0154, 38.7686",
+    priority: "High",
+    status: "Active",
+  },
+  {
+    id: "SOS-2023-002",
+    source: "SOS App",
+    timestamp: "Feb 9, 20:48",
+    location: "8.9854, 38.7536",
+    priority: "High",
+    status: "Acknowledged",
+  },
+  {
+    id: "MAN-2023-045",
+    source: "Manual",
+    timestamp: "Feb 9, 20:03",
+    location: "9.0104, 38.7436",
+    priority: "Medium",
+    status: "Resolved",
+  },
+  {
+    id: "IOT-2023-012",
+    source: "IoT Sensor",
+    timestamp: "Feb 9, 17:03",
+    location: "9.0354, 38.7836",
+    priority: "Low",
+    status: "Active",
+  },
+  {
+    id: "IOT-2023-02",
+    source: "IoT Sensor",
+    timestamp: "Feb 9, 17:03",
+    location: "9.0354, 38.7836",
+    priority: "Low",
+    status: "Resolved",
+  },
+  {
+    id: "IOT-2022-012",
+    source: "IoT Sensor",
+    timestamp: "Feb 9, 17:03",
+    location: "9.0354, 38.7836",
+    priority: "Low",
+    status: "Acknowledged",
+  },
 ];
-
 
 export const reportsData = [
   {
@@ -109,7 +110,6 @@ export const reportsData = [
   },
 ];
 
-
 export const usersData = [
   {
     name: "Admin User",
@@ -130,4 +130,3 @@ export const usersData = [
     status: "Offline",
   },
 ];
-
