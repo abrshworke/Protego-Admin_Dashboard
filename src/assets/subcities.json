@@ -1,0 +1,206 @@
+[
+  {
+    "subcity": "Addis Ketema",
+    "lat": 9.0325,
+    "lon": 38.7255,
+    "woredas": [
+      { "woreda": "01", "lat": 9.027, "lon": 38.741 },
+      { "woreda": "02", "lat": 9.033, "lon": 38.732 },
+      { "woreda": "03", "lat": 9.032, "lon": 38.73 },
+      { "woreda": "04", "lat": 9.03, "lon": 38.728 },
+      { "woreda": "05", "lat": 9.035, "lon": 38.725 },
+      { "woreda": "06", "lat": 9.028, "lon": 38.722 },
+      { "woreda": "07", "lat": 9.034, "lon": 38.72 },
+      { "woreda": "08", "lat": 9.031, "lon": 38.718 },
+      { "woreda": "09", "lat": 9.029, "lon": 38.715 },
+      { "woreda": "10", "lat": 9.036, "lon": 38.712 },
+      { "woreda": "11", "lat": 9.033, "lon": 38.71 },
+      { "woreda": "12", "lat": 9.03, "lon": 38.708 }
+    ]
+  },
+  {
+    "subcity": "Akaky Kaliti",
+    "lat": 8.9,
+    "lon": 38.77,
+    "woredas": [
+      { "woreda": "01", "lat": 8.895, "lon": 38.78 },
+      { "woreda": "02", "lat": 8.905, "lon": 38.775 },
+      { "woreda": "03", "lat": 8.885, "lon": 38.765 },
+      { "woreda": "04", "lat": 8.91, "lon": 38.785 },
+      { "woreda": "05", "lat": 8.89, "lon": 38.76 },
+      { "woreda": "06", "lat": 8.92, "lon": 38.79 },
+      { "woreda": "07", "lat": 8.88, "lon": 38.77 },
+      { "woreda": "08", "lat": 8.9, "lon": 38.755 },
+      { "woreda": "09", "lat": 8.915, "lon": 38.795 },
+      { "woreda": "10", "lat": 8.87, "lon": 38.745 },
+      { "woreda": "11", "lat": 8.925, "lon": 38.8 },
+      { "woreda": "12", "lat": 8.86, "lon": 38.735 }
+    ]
+  },
+  {
+    "subcity": "Arada",
+    "lat": 9.0448,
+    "lon": 38.7416,
+    "woredas": [
+      { "woreda": "01", "lat": 9.04, "lon": 38.74 },
+      { "woreda": "02", "lat": 9.045, "lon": 38.745 },
+      { "woreda": "03", "lat": 9.05, "lon": 38.735 },
+      { "woreda": "04", "lat": 9.035, "lon": 38.75 },
+      { "woreda": "05", "lat": 9.048, "lon": 38.738 },
+      { "woreda": "06", "lat": 9.042, "lon": 38.742 },
+      { "woreda": "07", "lat": 9.055, "lon": 38.73 },
+      { "woreda": "08", "lat": 9.03, "lon": 38.755 }
+    ]
+  },
+  {
+    "subcity": "Bole",
+    "lat": 8.9767,
+    "lon": 38.7675,
+    "woredas": [
+      { "woreda": "01", "lat": 8.98, "lon": 38.77 },
+      { "woreda": "02", "lat": 8.975, "lon": 38.765 },
+      { "woreda": "03", "lat": 8.993, "lon": 38.785 },
+      { "woreda": "04", "lat": 8.97, "lon": 38.76 },
+      { "woreda": "05", "lat": 8.985, "lon": 38.775 },
+      { "woreda": "06", "lat": 8.965, "lon": 38.755 },
+      { "woreda": "07", "lat": 8.99, "lon": 38.78 },
+      { "woreda": "08", "lat": 8.96, "lon": 38.75 },
+      { "woreda": "09", "lat": 8.995, "lon": 38.79 },
+      { "woreda": "10", "lat": 8.955, "lon": 38.745 },
+      { "woreda": "11", "lat": 9.0, "lon": 38.795 },
+      { "woreda": "12", "lat": 8.95, "lon": 38.74 },
+      { "woreda": "13", "lat": 9.005, "lon": 38.8 },
+      { "woreda": "14", "lat": 8.945, "lon": 38.735 }
+    ]
+  },
+  {
+    "subcity": "Gullele",
+    "lat": 9.08,
+    "lon": 38.73,
+    "woredas": [
+      { "woreda": "01", "lat": 9.075, "lon": 38.735 },
+      { "woreda": "02", "lat": 9.085, "lon": 38.725 },
+      { "woreda": "03", "lat": 9.07, "lon": 38.74 },
+      { "woreda": "04", "lat": 9.09, "lon": 38.72 },
+      { "woreda": "05", "lat": 9.065, "lon": 38.745 },
+      { "woreda": "06", "lat": 9.095, "lon": 38.715 },
+      { "woreda": "07", "lat": 9.06, "lon": 38.75 },
+      { "woreda": "08", "lat": 9.1, "lon": 38.71 },
+      { "woreda": "09", "lat": 9.055, "lon": 38.755 },
+      { "woreda": "10", "lat": 9.105, "lon": 38.705 }
+    ]
+  },
+  {
+    "subcity": "Kirkos",
+    "lat": 9.0009,
+    "lon": 38.7547,
+    "woredas": [
+      { "woreda": "01", "lat": 9.005, "lon": 38.75 },
+      { "woreda": "02", "lat": 8.995, "lon": 38.76 },
+      { "woreda": "03", "lat": 9.01, "lon": 38.745 },
+      { "woreda": "04", "lat": 9.0, "lon": 38.755 },
+      { "woreda": "05", "lat": 8.99, "lon": 38.765 },
+      { "woreda": "06", "lat": 9.015, "lon": 38.74 },
+      { "woreda": "07", "lat": 8.985, "lon": 38.77 },
+      { "woreda": "08", "lat": 9.02, "lon": 38.735 },
+      { "woreda": "09", "lat": 8.98, "lon": 38.775 },
+      { "woreda": "10", "lat": 9.025, "lon": 38.73 },
+      { "woreda": "11", "lat": 8.975, "lon": 38.78 }
+    ]
+  },
+  {
+    "subcity": "Kolfe Keranio",
+    "lat": 8.99,
+    "lon": 38.68,
+    "woredas": [
+      { "woreda": "01", "lat": 8.995, "lon": 38.685 },
+      { "woreda": "02", "lat": 8.985, "lon": 38.675 },
+      { "woreda": "03", "lat": 9.0, "lon": 38.69 },
+      { "woreda": "04", "lat": 8.98, "lon": 38.67 },
+      { "woreda": "05", "lat": 9.005, "lon": 38.695 },
+      { "woreda": "06", "lat": 8.975, "lon": 38.665 },
+      { "woreda": "07", "lat": 9.01, "lon": 38.7 },
+      { "woreda": "08", "lat": 8.97, "lon": 38.66 },
+      { "woreda": "09", "lat": 9.015, "lon": 38.705 },
+      { "woreda": "10", "lat": 8.965, "lon": 38.655 },
+      { "woreda": "11", "lat": 9.02, "lon": 38.71 },
+      { "woreda": "12", "lat": 8.96, "lon": 38.65 },
+      { "woreda": "13", "lat": 9.025, "lon": 38.715 },
+      { "woreda": "14", "lat": 8.955, "lon": 38.645 },
+      { "woreda": "15", "lat": 9.03, "lon": 38.72 }
+    ]
+  },
+  {
+    "subcity": "Lideta",
+    "lat": 9.01,
+    "lon": 38.72,
+    "woredas": [
+      { "woreda": "01", "lat": 9.015, "lon": 38.725 },
+      { "woreda": "02", "lat": 9.005, "lon": 38.715 },
+      { "woreda": "03", "lat": 9.02, "lon": 38.73 },
+      { "woreda": "04", "lat": 9.0, "lon": 38.71 },
+      { "woreda": "05", "lat": 9.025, "lon": 38.735 },
+      { "woreda": "06", "lat": 8.995, "lon": 38.705 },
+      { "woreda": "07", "lat": 9.03, "lon": 38.74 },
+      { "woreda": "08", "lat": 8.99, "lon": 38.7 },
+      { "woreda": "09", "lat": 9.035, "lon": 38.745 },
+      { "woreda": "10", "lat": 8.985, "lon": 38.695 }
+    ]
+  },
+  {
+    "subcity": "Nifas Silk-Lafto",
+    "lat": 8.9616,
+    "lon": 38.7275,
+    "woredas": [
+      { "woreda": "01", "lat": 8.965, "lon": 38.73 },
+      { "woreda": "02", "lat": 8.955, "lon": 38.72 },
+      { "woreda": "03", "lat": 8.97, "lon": 38.735 },
+      { "woreda": "04", "lat": 8.95, "lon": 38.715 },
+      { "woreda": "05", "lat": 8.975, "lon": 38.74 },
+      { "woreda": "06", "lat": 8.945, "lon": 38.71 },
+      { "woreda": "07", "lat": 8.98, "lon": 38.745 },
+      { "woreda": "08", "lat": 8.94, "lon": 38.705 },
+      { "woreda": "09", "lat": 8.985, "lon": 38.75 },
+      { "woreda": "10", "lat": 8.935, "lon": 38.7 },
+      { "woreda": "11", "lat": 8.99, "lon": 38.755 },
+      { "woreda": "12", "lat": 8.93, "lon": 38.695 },
+      { "woreda": "13", "lat": 8.995, "lon": 38.76 }
+    ]
+  },
+  {
+    "subcity": "Yeka",
+    "lat": 9.0272,
+    "lon": 38.784,
+    "woredas": [
+      { "woreda": "01", "lat": 9.03, "lon": 38.79 },
+      { "woreda": "02", "lat": 9.02, "lon": 38.78 },
+      { "woreda": "03", "lat": 9.035, "lon": 38.795 },
+      { "woreda": "04", "lat": 9.015, "lon": 38.775 },
+      { "woreda": "05", "lat": 9.04, "lon": 38.8 },
+      { "woreda": "06", "lat": 9.01, "lon": 38.77 },
+      { "woreda": "07", "lat": 9.045, "lon": 38.805 },
+      { "woreda": "08", "lat": 9.005, "lon": 38.765 },
+      { "woreda": "09", "lat": 9.05, "lon": 38.81 },
+      { "woreda": "10", "lat": 9.0, "lon": 38.76 },
+      { "woreda": "11", "lat": 9.055, "lon": 38.815 },
+      { "woreda": "12", "lat": 8.995, "lon": 38.755 }
+    ]
+  },
+  {
+    "subcity": "Lemi Kura",
+    "lat": 8.99,
+    "lon": 38.86,
+    "woredas": [
+      { "woreda": "01", "lat": 8.995, "lon": 38.865 },
+      { "woreda": "02", "lat": 8.985, "lon": 38.855 },
+      { "woreda": "03", "lat": 9.0, "lon": 38.87 },
+      { "woreda": "04", "lat": 8.98, "lon": 38.85 },
+      { "woreda": "05", "lat": 9.005, "lon": 38.875 },
+      { "woreda": "06", "lat": 8.975, "lon": 38.845 },
+      { "woreda": "07", "lat": 9.01, "lon": 38.88 },
+      { "woreda": "08", "lat": 8.97, "lon": 38.84 },
+      { "woreda": "09", "lat": 9.015, "lon": 38.885 },
+      { "woreda": "10", "lat": 8.965, "lon": 38.835 }
+    ]
+  }
+]
