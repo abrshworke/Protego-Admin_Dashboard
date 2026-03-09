@@ -1,13 +1,8 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyAq8-984cQJJX8Xa3-a6TSC9YHyVVnsZ0M",
   authDomain: "protego-dbf97.firebaseapp.com",
@@ -18,13 +13,12 @@ const firebaseConfig = {
   measurementId: "G-7P7ZL4862R",
 };
 
-// Initialize Firebase
+// Primary app — admin session
 const app = initializeApp(firebaseConfig);
-
-// ✅ Initialize Firestore
 export const db = getFirestore(app);
-
-// Analytics (optional)
 export const analytics = getAnalytics(app);
-//auth
 export const auth = getAuth(app);
+
+// Secondary app — for creating new users without affecting admin session
+const secondaryApp = initializeApp(firebaseConfig, "secondary");
+export const secondaryAuth = getAuth(secondaryApp);
