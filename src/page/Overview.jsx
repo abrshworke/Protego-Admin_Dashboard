@@ -78,7 +78,6 @@ export default function Overview() {
       <Sidebar />
 
       <div className="flex-1 flex flex-col">
-        <Topbar />
 
         <main className="p-6 flex-1 overflow-auto space-y-8">
           {/* Header */}
@@ -236,7 +235,6 @@ export default function Overview() {
             </div>
           </div>
         </main>
-        <Footer />
       </div>
     </div>
   );
