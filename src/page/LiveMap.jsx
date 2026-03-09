@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useContext } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-import SideBar from "../components/SideBar";
+import Sidebar from "../components/SideBar";
 import Topbar from "../components/Topbar";
 import L from "leaflet";
 import Footer from "../components/Footer";
