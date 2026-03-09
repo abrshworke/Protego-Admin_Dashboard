@@ -4,14 +4,18 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { AuthContext } from "../AuthProvider";
 import { assets, sidebarMenu, adminSidebarMenu } from "../assets/data";
-
+import { LogOut } from "lucide-react";
+import { useNotifications } from "../NotificationProvider";
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const { user, role, region, woreda } = useContext(AuthContext);
+  const { user, role, region, woreda, firstName, fatherName, grandFatherName } =
+    useContext(AuthContext);
 
   console.log("role is sb:", role);
   const menu = role === "admin" ? adminSidebarMenu : sidebarMenu;
+
+  const { unresolvedCount } = useNotifications();
 
   const handleLogout = async () => {
     try {
@@ -64,10 +68,17 @@ export default function Sidebar() {
               <span className="font-medium text-sm tracking-wide">
                 {item.name}
               </span>
-              <span
-                className={`ml-auto w-2 h-2 rounded-full transition
-                ${window.location.pathname === item.path ? "bg-red-500" : "bg-transparent group-hover:bg-slate-500"}`}
-              />
+              <span className={`ml-auto transition`}>
+                {item.name === "Live Incidents" && unresolvedCount > 0 ? (
+                  <span className="w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center animate-pulse">
+                    {unresolvedCount > 9 ? "9+" : unresolvedCount}
+                  </span>
+                ) : (
+                  <span
+                    className={`w-2 h-2 rounded-full ${window.location.pathname === item.path ? "bg-red-500" : "bg-transparent group-hover:bg-slate-500"}`}
+                  />
+                )}
+              </span>
             </NavLink>
           );
         })}
@@ -75,13 +86,9 @@ export default function Sidebar() {
 
       {/* User / Profile */}
       <div className="px-6 py-5 border-t border-slate-800 flex items-center gap-3 relative">
-        <div className="w-10 h-10 rounded-full bg-slate-700 flex items-center justify-center text-white font-semibold uppercase">
-          {user?.email?.[0] || "U"}
-        </div>
-
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-white truncate">
-            {user?.email}
+            {`${firstName} ${fatherName} ${grandFatherName}`}{" "}
           </p>
 
           <span
@@ -92,31 +99,20 @@ export default function Sidebar() {
           </span>
 
           <span style={{ marginLeft: "10px" }}>
-            {role === "authority" ? region : "Authority"}
+            {role === "authority" ? region : ""}
           </span>
 
           <span style={{ display: "block", marginLeft: "10px" }}>
-            {role === "authority" ? `Woreda: ${woreda}` : "Authority"}
+            {role === "authority" ? `Woreda: ${woreda}` : ""}
           </span>
         </div>
 
         <button
-          onClick={() => setOpen(!open)}
+          onClick={handleLogout}
           className="text-slate-400 hover:text-white transition cursor-pointer"
         >
-          ⚙️
+          <LogOut size={18} />
         </button>
-
-        {open && (
-          <div className="absolute bottom-full left-0 mb-2 w-48 bg-slate-900 text-white rounded-lg shadow-lg border border-slate-800 overflow-hidden z-50">
-            <button
-              onClick={handleLogout}
-              className="w-full px-4 py-2 text-left text-red-500 hover:bg-slate-800 transition"
-            >
-              Logout
-            </button>
-          </div>
-        )}
       </div>
     </aside>
   );
