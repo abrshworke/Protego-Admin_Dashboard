@@ -203,7 +203,6 @@ export default function AdminLiveMap() {
     <div className="flex min-h-screen bg-slate-100">
       <Sidebar />
       <div className="flex-1 flex flex-col">
-        <Topbar />
         <main className="flex-1 p-4 flex flex-col">
           <h1 className="text-2xl font-bold text-slate-800 mb-1">Live Map</h1>
           <p className="text-slate-500 mb-4">
@@ -429,7 +428,6 @@ export default function AdminLiveMap() {
             </div>
           </div>
         </main>
-        <Footer />
       </div>
     </div>
   );
