@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Sidebar from "../components/SideBar";
+import SideBar from "../components/SideBar";
 import Topbar from "../components/Topbar";
 import StatCard from "../components/StatCard";
 import Footer from "../components/Footer";
