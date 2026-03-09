@@ -9,7 +9,10 @@ import AnonymousReports from "./page/AnonymousReports";
 import LiveMap from "./page/LiveMap";
 import AdminLiveMap from "./page/AdminLiveMap";
 import AdminDashboard from "./page/AdminDashboard";
-
+import AuthorityStats from "./page/AuthorityStats";
+import AdminStats from "./page/AdminStats";
+import AuthorityManagement from "./page/AuthorityManagement";
+import StaleIncidents from "./page/Staleincidents";
 function RoleRedirect() {
   const { role } = useContext(AuthContext);
   if (role === "admin") return <Navigate to="/admin/overview" replace />;
@@ -30,6 +33,7 @@ export default function App() {
       <Route element={<ProtectedRoute allowedRoles={["authority"]} />}>
         <Route path="/overview" element={<Overview />} />
         <Route path="/map" element={<LiveMap />} />
+        <Route path="/incident-statstics" element={<AuthorityStats />} />
         <Route path="/reports" element={<AnonymousReports />} />
       </Route>
 
@@ -37,7 +41,13 @@ export default function App() {
       <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
         <Route path="/admin/overview" element={<AdminDashboard />} />
         <Route path="/admin/map" element={<AdminLiveMap />} />
+        <Route path="/admin/incident-statstics" element={<AdminStats />} />
         <Route path="/admin/reports" element={<AnonymousReports />} />
+        <Route path="/admin/stale-incidents" element={<StaleIncidents />} />
+        <Route
+          path="/admin/authority-management"
+          element={<AuthorityManagement />}
+        />
       </Route>
 
       {/* Catch all */}
