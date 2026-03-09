@@ -264,10 +264,11 @@ export default function LiveMap() {
     <div className="flex min-h-screen bg-slate-100">
       <Sidebar />
       <div className="flex-1 flex flex-col">
-        <Topbar />
         <main className="flex-1 p-4 flex flex-col">
           <div className="mb-4">
-            <h1 className="text-2xl font-bold text-slate-800">Live Incidents In {region}: Woreda {woreda}</h1>
+            <h1 className="text-2xl font-bold text-slate-800">
+              Live Incidents In {region}: Woreda {woreda}
+            </h1>
             <p className="text-slate-500 text-sm mt-0.5">
               {role === "admin"
                 ? "Viewing all incidents across Addis Ababa"
@@ -491,7 +492,6 @@ export default function LiveMap() {
             </div>
           </div>
         </main>
-        <Footer />
       </div>
     </div>
   );
