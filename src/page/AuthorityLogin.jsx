@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase";
 import { AuthContext } from "../AuthProvider";
@@ -15,7 +15,6 @@ export default function AuthorityLogin() {
   const navigate = useNavigate();
   const { user, role } = useContext(AuthContext);
 
-  // Auto redirect if already logged in
   useEffect(() => {
     if (user && role) {
       redirectByRole(role);
@@ -41,16 +40,30 @@ export default function AuthorityLogin() {
       );
       const uid = userCredential.user.uid;
 
-      // Fetch role from users collection
       const userDoc = await getDoc(doc(db, "users", uid));
       if (!userDoc.exists()) {
+        await signOut(auth);
         setError("Account not found in system. Contact administrator.");
         setLoading(false);
         return;
       }
 
-      const { role } = userDoc.data();
-      redirectByRole(role);
+      const userData = userDoc.data();
+
+      // Block unassigned authorities
+      if (
+        userData.role === "authority" &&
+        (!userData.region || userData.region === "not_assigned")
+      ) {
+        await signOut(auth);
+        setError(
+          "Your account has not been assigned to a region yet. Contact your administrator.",
+        );
+        setLoading(false);
+        return;
+      }
+
+      redirectByRole(userData.role);
     } catch (err) {
       console.error(err);
       if (err.code === "auth/invalid-credential")
@@ -115,7 +128,6 @@ export default function AuthorityLogin() {
               />
             </div>
 
-            {/* Error */}
             {error && (
               <p className="text-red-400 text-xs bg-red-900/30 border border-red-800 rounded-lg px-3 py-2">
                 {error}
