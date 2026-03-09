@@ -8,6 +8,9 @@ export const AuthContext = createContext();
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(null);
+  const [firstName, setfirstName] = useState(null);
+  const [fatherName, setfatherName] = useState(null);
+  const [grandFatherName, setgrandFatherName] = useState(null);
   const [region, setRegion] = useState(null);
   const [woreda, setWoreda] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,6 +23,9 @@ export default function AuthProvider({ children }) {
         console.log("Fetched user from Firestore:", userData); // ← debug
         console.log("Fetched role from Firestore:", userData.role); // ← debug
         setUser(firebaseUser);
+        setfirstName(firstName);
+        setfatherName(fatherName);
+        setgrandFatherName(grandFatherName);
         setRole(userData.role || null);
         setRegion(userData.region || null);
         setWoreda(userData.woreda || null);
@@ -38,7 +44,18 @@ export default function AuthProvider({ children }) {
   if (loading) return <p>Loading...</p>;
 
   return (
-    <AuthContext.Provider value={{ user, role, region, woreda, loading }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        role,
+        region,
+        woreda,
+        firstName,
+        fatherName,
+        grandFatherName,
+        loading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
