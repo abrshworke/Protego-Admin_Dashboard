@@ -1,7 +1,7 @@
 
 
 import { useState } from "react";
-import SideBar from "../components/SideBar";
+import Sidebar from "../components/SideBar";
 import Topbar from "../components/Topbar";
 import ReportCard from "../components/ReportCard";
 import { reportsData } from "../assets/data";
