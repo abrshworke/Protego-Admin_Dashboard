@@ -1,11 +1,9 @@
-
 import { useState } from "react";
 import Sidebar from "../components/SideBar";
 import Topbar from "../components/Topbar";
 import UserCard from "../components/UserCard";
 import { usersData } from "../assets/data";
 import Footer from "../components/Footer";
-
 
 export default function UserManagement() {
   const [search, setSearch] = useState("");
@@ -16,7 +14,7 @@ export default function UserManagement() {
   const filteredUsers = users.filter(
     (user) =>
       user.name.toLowerCase().includes(search.toLowerCase()) ||
-      user.email.toLowerCase().includes(search.toLowerCase())
+      user.email.toLowerCase().includes(search.toLowerCase()),
   );
 
   const openAddModal = () => {
@@ -43,8 +41,6 @@ export default function UserManagement() {
       <Sidebar />
 
       <div className="flex-1 flex flex-col">
-        <Topbar />
-
         <main className="p-6 flex-1 overflow-auto space-y-8">
           {/* Header */}
           <div className="bg-white rounded-2xl shadow-sm p-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
@@ -89,8 +85,6 @@ export default function UserManagement() {
             )}
           </div>
         </main>
-        <Footer />
-        
       </div>
 
       {modalOpen && (
@@ -108,7 +102,7 @@ export default function UserManagement() {
 
 function UserModal({ user, onClose, onSave }) {
   const [form, setForm] = useState(
-    user || { name: "", email: "", role: "Operator", status: "Active" }
+    user || { name: "", email: "", role: "Operator", status: "Active" },
   );
 
   const handleChange = (e) =>
