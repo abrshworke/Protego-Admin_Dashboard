@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useMemo } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { AuthContext } from "../AuthProvider";
-import SideBar from "../components/SideBar";
+import Sidebar from "../components/SideBar";
 import Topbar from "../components/Topbar";
 import Footer from "../components/Footer";
 import subcityData from "../assets/subcities.json";
