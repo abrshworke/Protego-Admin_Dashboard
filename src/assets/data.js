@@ -1,5 +1,12 @@
 import logo from "./logo.png";
-import { LayoutDashboard, Map, FileWarning } from "lucide-react";
+import {
+  LayoutDashboard,
+  Map,
+  FileWarning,
+  BarChart3,
+  Users,
+  Clock,
+} from "lucide-react";
 
 export const assets = {
   logo,
@@ -8,12 +15,28 @@ export const assets = {
 export const sidebarMenu = [
   { name: "Overview", path: "/overview", icon: LayoutDashboard },
   { name: "Live Incidents", path: "/map", icon: Map },
+  {
+    name: "Incident Statstics",
+    path: "/incident-statstics",
+    icon: BarChart3,
+  },
   { name: "Anonymous Reports", path: "/reports", icon: FileWarning },
 ];
 
 export const adminSidebarMenu = [
   { name: "Overview", path: "/admin/overview", icon: LayoutDashboard },
   { name: "Live Incidents", path: "/admin/map", icon: Map },
+  { name: "Stale Incidents", path: "/admin/stale-incidents", icon: Clock },
+  {
+    name: "Incident Statstics",
+    path: "/admin/incident-statstics",
+    icon: BarChart3,
+  },
+  {
+    name: "Authority Management",
+    path: "/admin/authority-management",
+    icon: Users,
+  },
   { name: "Anonymous Reports", path: "/admin/reports", icon: FileWarning },
 ];
 
